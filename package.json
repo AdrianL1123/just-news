@@ -1,0 +1,43 @@
+{
+  "name": "just-news",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev:vite": "vite --port 5173",
+    "dev:pages": "wrangler pages dev --proxy 5173 --port 8788",
+    "dev": "concurrently \"pnpm dev:vite\" \"pnpm dev:pages\"",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "check": "vp check",
+    "format": "vp fmt"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "hono": "^4.12.22",
+    "lucide-react": "^1.16.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@cloudflare/workers-types": "^4.20260523.1",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.5.0",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "concurrently": "^9.2.1",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.12",
+    "wrangler": "^4.94.0"
+  }
+}
