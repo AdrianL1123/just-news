@@ -25,5 +25,13 @@ dist-ssr
 
 # Cloudflare local env
 .dev.vars
+.wrangler
+
+# env
+.env
+.env.local
+
+# TanStack Router generated route tree
+src/routeTree.gen.ts
 
 docs/

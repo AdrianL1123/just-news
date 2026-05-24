@@ -1,5 +1,3 @@
-import type { Category, Country } from '@/config/nav'
-
 export interface Article {
   uuid: string
   title: string
@@ -18,9 +16,4 @@ export interface NewsResponse {
     limit: number
     page: number
   }
-}
-
-export interface NavState {
-  country: Country
-  category: Category
 }

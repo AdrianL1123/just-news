@@ -24,6 +24,14 @@
     --input: 240 5% 19%;
     --ring: 239 84% 76%;
     --radius: 0rem;
+    --sidebar-background: 240 5% 11%;
+    --sidebar-foreground: 40 10% 95%;
+    --sidebar-primary: 239 84% 76%;
+    --sidebar-primary-foreground: 240 5% 8%;
+    --sidebar-accent: 240 5% 15%;
+    --sidebar-accent-foreground: 40 10% 95%;
+    --sidebar-border: 240 5% 19%;
+    --sidebar-ring: 239 84% 76%;
   }
 }
 
