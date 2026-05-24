@@ -1,5 +1,5 @@
 import type { Article, NavState } from '@/types'
-import { ArticleRow } from './ArticleRow'
+import { ArticleCard } from './ArticleCard'
 import { SummaryCard } from './SummaryCard'
 import { PageSpinner } from '@/components/ui/page-spinner'
 import { useSummary } from '@/hooks/useSummary'
@@ -43,11 +43,13 @@ export function Feed({ articles, loading, error, nav }: Props) {
         </div>
       )}
 
-      {!loading &&
-        !error &&
-        articles.map((article) => (
-          <ArticleRow key={article.uuid} article={article} />
-        ))}
+      {!loading && !error && articles.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-8">
+          {articles.map((article) => (
+            <ArticleCard key={article.uuid} article={article} />
+          ))}
+        </div>
+      )}
     </main>
   )
 }

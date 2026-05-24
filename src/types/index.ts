@@ -7,6 +7,7 @@ export interface Article {
   source: string
   published_at: string
   categories: string[]
+  image_url?: string
 }
 
 export interface NewsResponse {

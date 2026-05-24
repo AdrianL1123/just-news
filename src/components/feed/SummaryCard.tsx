@@ -13,15 +13,15 @@ interface Props {
 export function SummaryCard({ status, text, error, onGenerate, onReset }: Props) {
   if (status === 'idle') {
     return (
-      <div className="px-8 py-3 border-b border-border flex items-center gap-3">
+      <div className="px-8 py-4 border-b border-border flex items-center gap-3">
         <button
           onClick={onGenerate}
           className={cn(
-            'flex items-center gap-2 text-xs text-foreground/50',
+            'flex items-center gap-2 text-sm text-foreground/60',
             'hover:text-primary transition-colors',
           )}
         >
-          <Sparkles className="size-3.5" />
+          <Sparkles className="size-4" />
           Summarize today with AI
         </button>
       </div>
@@ -30,8 +30,8 @@ export function SummaryCard({ status, text, error, onGenerate, onReset }: Props)
 
   if (status === 'loading') {
     return (
-      <div className="px-8 py-3 border-b border-border flex items-center gap-2 text-xs text-foreground/50">
-        <Spinner className="size-3.5" />
+      <div className="px-8 py-4 border-b border-border flex items-center gap-2 text-sm text-foreground/60">
+        <Spinner className="size-4" />
         Generating summary…
       </div>
     )
@@ -39,13 +39,13 @@ export function SummaryCard({ status, text, error, onGenerate, onReset }: Props)
 
   if (status === 'error') {
     return (
-      <div className="px-8 py-3 border-b border-border flex items-center justify-between gap-3">
-        <span className="text-xs text-foreground/50">{error}</span>
+      <div className="px-8 py-4 border-b border-border flex items-center justify-between gap-3">
+        <span className="text-sm text-foreground/60">{error}</span>
         <button
           onClick={onReset}
-          className="text-xs text-foreground/40 hover:text-foreground/70 transition-colors flex items-center gap-1"
+          className="text-sm text-foreground/50 hover:text-foreground/80 transition-colors flex items-center gap-1"
         >
-          <X className="size-3" />
+          <X className="size-3.5" />
           Dismiss
         </button>
       </div>
@@ -53,10 +53,10 @@ export function SummaryCard({ status, text, error, onGenerate, onReset }: Props)
   }
 
   return (
-    <div className="px-8 py-4 border-b border-border space-y-2">
+    <div className="px-8 py-5 border-b border-border space-y-2.5">
       <div className="flex items-center justify-between">
-        <span className="flex items-center gap-1.5 text-xs text-primary">
-          <Sparkles className="size-3.5" />
+        <span className="flex items-center gap-1.5 text-sm text-primary">
+          <Sparkles className="size-4" />
           AI Briefing
         </span>
         <button
@@ -64,10 +64,10 @@ export function SummaryCard({ status, text, error, onGenerate, onReset }: Props)
           className="text-foreground/30 hover:text-foreground/60 transition-colors"
           aria-label="Close summary"
         >
-          <RotateCcw className="size-3" />
+          <RotateCcw className="size-3.5" />
         </button>
       </div>
-      <p className="text-sm text-foreground leading-relaxed">{text}</p>
+      <p className="text-base text-foreground leading-relaxed">{text}</p>
     </div>
   )
 }

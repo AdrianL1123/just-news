@@ -34,14 +34,14 @@ export function Topbar({
       </span>
 
       <div className="flex items-center gap-3.5">
-        <span className="text-xs text-foreground hidden sm:block">
+        <span className="text-sm text-foreground hidden sm:block">
           <span className="text-foreground font-medium">{nav.category.label}</span>
           {' · '}
           {nav.country.label}
         </span>
 
         {updatedAt && (
-          <span className="text-[11.5px] text-foreground/50 hidden sm:block">
+          <span className="text-xs text-foreground/50 hidden sm:block">
             Updated {formatUpdatedAt(updatedAt)}
           </span>
         )}
@@ -49,9 +49,9 @@ export function Topbar({
         <button
           onClick={onRefresh}
           disabled={refreshing}
-          className="flex items-center gap-1.5 px-2.5 py-1 border border-border text-foreground text-[11.5px] hover:border-primary hover:text-primary hover:bg-primary/10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center gap-1.5 px-2.5 py-1 border border-border text-foreground text-xs hover:border-primary hover:text-primary hover:bg-primary/10 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          <RefreshCw className={`w-2.5 h-2.5 ${refreshing ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3 h-3 ${refreshing ? 'animate-spin' : ''}`} />
           Refresh
         </button>
       </div>
