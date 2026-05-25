@@ -1,14 +1,9 @@
 import { queryOptions } from "@tanstack/react-query";
+import { format } from "date-fns";
 import type { Article } from "@/types";
 
 /** YYYY-MM-DD key in the user's local timezone — drives day-based cache invalidation. */
-export const todayKey = (): string => {
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-};
+export const todayKey = (): string => format(new Date(), "yyyy-MM-dd");
 
 async function fetchNews(country: string, category: string): Promise<Article[]> {
   const url = `/api/news?locale=${encodeURIComponent(country)}&category=${encodeURIComponent(category)}`;
