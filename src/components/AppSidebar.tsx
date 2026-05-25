@@ -7,6 +7,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuAction,
   SidebarMenuButton,
@@ -16,6 +17,50 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { COUNTRIES, CATEGORIES } from "@/config/nav";
 import { todayKey } from "@/lib/news";
+
+export function AppSidebar() {
+  const { country: activeCountry, category: activeCategory } = useParams({
+    strict: false,
+  });
+
+  return (
+    <Sidebar collapsible="offcanvas">
+      <SidebarHeader>
+        <div className="px-2 py-1.5">
+          <span className="font-serif text-[18px] tracking-[-0.2px] select-none">
+            Just<span className="text-primary">.</span>News
+          </span>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        {COUNTRIES.map((country, idx) => (
+          <div key={country.code}>
+            {idx > 0 && <SidebarSeparator />}
+            <SidebarGroup>
+              <SidebarGroupLabel className="text-[11px] font-semibold tracking-[0.12em] uppercase text-foreground/50">
+                {country.label}
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {CATEGORIES.map(({ id, label, Icon }) => (
+                    <CategoryMenuItem
+                      key={id}
+                      countryCode={country.code}
+                      categoryId={id}
+                      label={label}
+                      Icon={Icon}
+                      isActive={activeCountry === country.code && activeCategory === id}
+                    />
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </div>
+        ))}
+      </SidebarContent>
+    </Sidebar>
+  );
+}
 
 interface CategoryMenuItemProps {
   countryCode: string;
@@ -57,42 +102,5 @@ function CategoryMenuItem({
         </SidebarMenuAction>
       )}
     </SidebarMenuItem>
-  );
-}
-
-export function AppSidebar() {
-  const { country: activeCountry, category: activeCategory } = useParams({
-    strict: false,
-  });
-
-  return (
-    <Sidebar collapsible="offcanvas">
-      <SidebarContent>
-        {COUNTRIES.map((country, idx) => (
-          <div key={country.code}>
-            {idx > 0 && <SidebarSeparator />}
-            <SidebarGroup>
-              <SidebarGroupLabel className="text-[11px] font-semibold tracking-[0.12em] uppercase text-foreground/50">
-                {country.label}
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {CATEGORIES.map(({ id, label, Icon }) => (
-                    <CategoryMenuItem
-                      key={id}
-                      countryCode={country.code}
-                      categoryId={id}
-                      label={label}
-                      Icon={Icon}
-                      isActive={activeCountry === country.code && activeCategory === id}
-                    />
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </div>
-        ))}
-      </SidebarContent>
-    </Sidebar>
   );
 }

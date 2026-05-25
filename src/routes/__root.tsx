@@ -2,7 +2,7 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/Sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { Topbar } from "@/components/Topbar";
 
 interface RouterContext {

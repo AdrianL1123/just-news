@@ -37,9 +37,7 @@ export function Topbar() {
     <header className="h-12 px-3 border-b border-border flex items-center sticky top-0 bg-background/90 backdrop-blur-md z-50 flex-shrink-0">
       <SidebarTrigger className="mr-2" />
 
-      <span className="font-serif text-[18px] tracking-[-0.2px] mr-auto select-none">
-        Just<span className="text-primary">.</span>News
-      </span>
+      <div className="mr-auto" />
 
       <div className="flex items-center gap-3.5">
         {typeof navLabel === "object" && (
