@@ -1,5 +1,5 @@
-import { QueryClient } from '@tanstack/react-query'
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+import { QueryClient } from "@tanstack/react-query";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,12 +11,12 @@ export const queryClient = new QueryClient({
       retry: 1,
     },
   },
-})
+});
 
 export const persister =
-  typeof window !== 'undefined'
+  typeof window !== "undefined"
     ? createSyncStoragePersister({
         storage: window.localStorage,
-        key: 'just-news.query-cache',
+        key: "just-news.query-cache",
       })
-    : undefined
+    : undefined;

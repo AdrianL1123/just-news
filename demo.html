@@ -1,516 +1,757 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JustNews</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JustNews</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    :root {
-      --bg:         #0E0E10;
-      --sidebar-bg: #111114;
-      --surface:    #16161A;
-      --surface-2:  #1C1C22;
-      --border:     #1E1E24;
-      --text-1:     #E2E0DA;
-      --text-2:     #6B6A66;
-      --text-3:     #3A3A3E;
-      --accent:     #818CF8;
-      --accent-dim: rgba(129,140,248,0.08);
-      --accent-dim2:rgba(129,140,248,0.14);
-    }
+      :root {
+        --bg: #0e0e10;
+        --sidebar-bg: #111114;
+        --surface: #16161a;
+        --surface-2: #1c1c22;
+        --border: #1e1e24;
+        --text-1: #e2e0da;
+        --text-2: #6b6a66;
+        --text-3: #3a3a3e;
+        --accent: #818cf8;
+        --accent-dim: rgba(129, 140, 248, 0.08);
+        --accent-dim2: rgba(129, 140, 248, 0.14);
+      }
 
-    body {
-      background: var(--bg);
-      color: var(--text-1);
-      font-family: 'IBM Plex Sans', sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+      body {
+        background: var(--bg);
+        color: var(--text-1);
+        font-family: "IBM Plex Sans", sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
 
-    /* ── TOPBAR ──────────────────────────────────────── */
-    .topbar {
-      height: 48px;
-      padding: 0 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      background: rgba(14,14,16,0.92);
-      backdrop-filter: blur(10px);
-      z-index: 300;
-      flex-shrink: 0;
-    }
+      /* ── TOPBAR ──────────────────────────────────────── */
+      .topbar {
+        height: 48px;
+        padding: 0 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background: rgba(14, 14, 16, 0.92);
+        backdrop-filter: blur(10px);
+        z-index: 300;
+        flex-shrink: 0;
+      }
 
-    .menu-btn {
-      background: none;
-      border: none;
-      color: var(--text-2);
-      cursor: pointer;
-      padding: 6px;
-      display: flex;
-      align-items: center;
-      margin-right: 10px;
-      transition: color 0.12s;
-    }
-    .menu-btn:hover { color: var(--text-1); }
+      .menu-btn {
+        background: none;
+        border: none;
+        color: var(--text-2);
+        cursor: pointer;
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+        transition: color 0.12s;
+      }
+      .menu-btn:hover {
+        color: var(--text-1);
+      }
 
-    .logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 18px;
-      letter-spacing: -0.2px;
-      margin-right: auto;
-    }
-    .logo-dot { color: var(--accent); }
+      .logo {
+        font-family: "DM Serif Display", serif;
+        font-size: 18px;
+        letter-spacing: -0.2px;
+        margin-right: auto;
+      }
+      .logo-dot {
+        color: var(--accent);
+      }
 
-    .topbar-right { display: flex; align-items: center; gap: 14px; }
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
 
-    .active-label { font-size: 12px; color: var(--text-2); }
-    .active-label strong { color: var(--text-1); font-weight: 500; }
+      .active-label {
+        font-size: 12px;
+        color: var(--text-2);
+      }
+      .active-label strong {
+        color: var(--text-1);
+        font-weight: 500;
+      }
 
-    .updated { font-size: 11.5px; color: var(--text-3); }
-    .updated span { color: var(--text-2); }
+      .updated {
+        font-size: 11.5px;
+        color: var(--text-3);
+      }
+      .updated span {
+        color: var(--text-2);
+      }
 
-    .refresh-btn {
-      display: flex; align-items: center; gap: 5px;
-      padding: 4px 10px;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-2);
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 11.5px;
-      cursor: pointer;
-      transition: all 0.12s;
-    }
-    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+      .refresh-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--text-2);
+        font-family: "IBM Plex Sans", sans-serif;
+        font-size: 11.5px;
+        cursor: pointer;
+        transition: all 0.12s;
+      }
+      .refresh-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-dim);
+      }
 
-    /* ── LAYOUT ──────────────────────────────────────── */
-    .layout { display: flex; flex: 1; position: relative; }
+      /* ── LAYOUT ──────────────────────────────────────── */
+      .layout {
+        display: flex;
+        flex: 1;
+        position: relative;
+      }
 
-    /* ── SIDEBAR ─────────────────────────────────────── */
-    .sidebar {
-      width: 200px;
-      background: var(--sidebar-bg);
-      border-right: 1px solid var(--border);
-      position: sticky;
-      top: 48px;
-      height: calc(100vh - 48px);
-      overflow-y: auto;
-      flex-shrink: 0;
-      transition: width 0.2s ease, opacity 0.2s ease;
-    }
-    .sidebar::-webkit-scrollbar { width: 2px; }
-    .sidebar::-webkit-scrollbar-thumb { background: var(--border); }
-    .sidebar.closed { width: 0; opacity: 0; overflow: hidden; }
+      /* ── SIDEBAR ─────────────────────────────────────── */
+      .sidebar {
+        width: 200px;
+        background: var(--sidebar-bg);
+        border-right: 1px solid var(--border);
+        position: sticky;
+        top: 48px;
+        height: calc(100vh - 48px);
+        overflow-y: auto;
+        flex-shrink: 0;
+        transition:
+          width 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .sidebar::-webkit-scrollbar {
+        width: 2px;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        background: var(--border);
+      }
+      .sidebar.closed {
+        width: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
 
-    .sidebar-inner { padding: 16px 0 32px; }
+      .sidebar-inner {
+        padding: 16px 0 32px;
+      }
 
-    .country-label {
-      padding: 12px 16px 6px;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-3);
-    }
+      .country-label {
+        padding: 12px 16px 6px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-3);
+      }
 
-    .nav-item {
-      display: flex; align-items: center; gap: 8px;
-      padding: 7px 16px 7px 12px;
-      font-size: 13px;
-      color: var(--text-2);
-      cursor: pointer;
-      border-left: 2px solid transparent;
-      transition: color 0.1s, background 0.1s;
-      user-select: none;
-      white-space: nowrap;
-    }
-    .nav-item:hover { color: var(--text-1); background: rgba(255,255,255,0.02); }
-    .nav-item.active {
-      color: var(--accent);
-      border-left-color: var(--accent);
-      background: var(--accent-dim);
-      font-weight: 500;
-    }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 16px 7px 12px;
+        font-size: 13px;
+        color: var(--text-2);
+        cursor: pointer;
+        border-left: 2px solid transparent;
+        transition:
+          color 0.1s,
+          background 0.1s;
+        user-select: none;
+        white-space: nowrap;
+      }
+      .nav-item:hover {
+        color: var(--text-1);
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .nav-item.active {
+        color: var(--accent);
+        border-left-color: var(--accent);
+        background: var(--accent-dim);
+        font-weight: 500;
+      }
 
-    .sidebar-sep { height: 1px; background: var(--border); margin: 10px 0; }
+      .sidebar-sep {
+        height: 1px;
+        background: var(--border);
+        margin: 10px 0;
+      }
 
-    /* ── FEED ────────────────────────────────────────── */
-    .feed { flex: 1; min-width: 0; }
+      /* ── FEED ────────────────────────────────────────── */
+      .feed {
+        flex: 1;
+        min-width: 0;
+      }
 
-    /* ── SUMMARY CARD ────────────────────────────────── */
-    .summary-bar {
-      padding: 12px 32px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
+      /* ── SUMMARY CARD ────────────────────────────────── */
+      .summary-bar {
+        padding: 12px 32px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
 
-    .summary-bar-left { display: flex; align-items: center; gap: 10px; }
+      .summary-bar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-    .summarize-btn {
-      display: flex; align-items: center; gap: 6px;
-      padding: 5px 12px;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-2);
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.12s;
-      white-space: nowrap;
-    }
-    .summarize-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-    .summarize-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+      .summarize-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--text-2);
+        font-family: "IBM Plex Sans", sans-serif;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.12s;
+        white-space: nowrap;
+      }
+      .summarize-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-dim);
+      }
+      .summarize-btn.active {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-dim);
+      }
 
-    .model-select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-2);
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 11.5px;
-      padding: 4px 8px;
-      cursor: pointer;
-      outline: none;
-      transition: border-color 0.12s;
-    }
-    .model-select:hover { border-color: var(--text-3); }
-    .model-select:focus { border-color: var(--accent); }
-    .model-select option { background: var(--surface-2); }
+      .model-select {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-2);
+        font-family: "IBM Plex Sans", sans-serif;
+        font-size: 11.5px;
+        padding: 4px 8px;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.12s;
+      }
+      .model-select:hover {
+        border-color: var(--text-3);
+      }
+      .model-select:focus {
+        border-color: var(--accent);
+      }
+      .model-select option {
+        background: var(--surface-2);
+      }
 
-    .summary-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--accent);
-      padding: 14px 18px;
-      font-size: 13.5px;
-      line-height: 1.65;
-      color: var(--text-1);
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
-      margin: 0 32px;
-    }
-    .summary-card.visible {
-      max-height: 300px;
-      opacity: 1;
-      padding: 14px 18px;
-      margin: 16px 32px 0;
-    }
-    .summary-card.hidden-card {
-      max-height: 0;
-      opacity: 0;
-      padding: 0 18px;
-      margin: 0 32px;
-    }
+      .summary-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 2px solid var(--accent);
+        padding: 14px 18px;
+        font-size: 13.5px;
+        line-height: 1.65;
+        color: var(--text-1);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.3s ease,
+          opacity 0.25s ease,
+          padding 0.3s ease;
+        margin: 0 32px;
+      }
+      .summary-card.visible {
+        max-height: 300px;
+        opacity: 1;
+        padding: 14px 18px;
+        margin: 16px 32px 0;
+      }
+      .summary-card.hidden-card {
+        max-height: 0;
+        opacity: 0;
+        padding: 0 18px;
+        margin: 0 32px;
+      }
 
-    .summary-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+      .summary-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
 
-    .summary-text { color: var(--text-1); }
+      .summary-text {
+        color: var(--text-1);
+      }
 
-    .summary-generating {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-2);
-      font-size: 13px;
-    }
+      .summary-generating {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-2);
+        font-size: 13px;
+      }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinning { animation: spin 0.8s linear infinite; }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .spinning {
+        animation: spin 0.8s linear infinite;
+      }
 
-    /* ── ARTICLES ────────────────────────────────────── */
-    .article {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 18px 32px;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: background 0.1s;
-      text-decoration: none;
-      color: inherit;
-    }
-    .article:hover { background: var(--surface); }
-    .article:hover .article-title { color: var(--accent); }
+      /* ── ARTICLES ────────────────────────────────────── */
+      .article {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 18px 32px;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        transition: background 0.1s;
+        text-decoration: none;
+        color: inherit;
+      }
+      .article:hover {
+        background: var(--surface);
+      }
+      .article:hover .article-title {
+        color: var(--accent);
+      }
 
-    .article-left { flex: 1; min-width: 0; }
+      .article-left {
+        flex: 1;
+        min-width: 0;
+      }
 
-    .article-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 17px;
-      line-height: 1.35;
-      letter-spacing: -0.1px;
-      margin-bottom: 6px;
-      transition: color 0.1s;
-    }
+      .article-title {
+        font-family: "DM Serif Display", serif;
+        font-size: 17px;
+        line-height: 1.35;
+        letter-spacing: -0.1px;
+        margin-bottom: 6px;
+        transition: color 0.1s;
+      }
 
-    .article-meta {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 11.5px;
-      color: var(--text-2);
-    }
-    .meta-source { font-weight: 500; }
-    .meta-sep { width: 2px; height: 2px; background: var(--text-3); border-radius: 50%; flex-shrink: 0; }
-    .meta-time { color: var(--text-3); }
+      .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11.5px;
+        color: var(--text-2);
+      }
+      .meta-source {
+        font-weight: 500;
+      }
+      .meta-sep {
+        width: 2px;
+        height: 2px;
+        background: var(--text-3);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .meta-time {
+        color: var(--text-3);
+      }
 
-    .article-arrow {
-      color: var(--text-3);
-      flex-shrink: 0;
-      opacity: 0;
-      transition: opacity 0.1s;
-    }
-    .article:hover .article-arrow { opacity: 1; color: var(--accent); }
-  </style>
-</head>
-<body>
-
-<!-- TOPBAR -->
-<header class="topbar">
-  <button class="menu-btn" onclick="toggleSidebar()">
-    <i data-lucide="panel-left" style="width:16px;height:16px"></i>
-  </button>
-  <div class="logo">Just<span class="logo-dot">.</span>News</div>
-  <div class="topbar-right">
-    <span class="active-label"><strong id="lbl-cat">Top Stories</strong> · <span id="lbl-country">United States</span></span>
-    <span class="updated">Updated <span id="lbl-time">2 min ago</span></span>
-    <button class="refresh-btn" id="refresh-btn" onclick="doRefresh()">
-      <i data-lucide="refresh-cw" style="width:11px;height:11px"></i>
-      Refresh
-    </button>
-  </div>
-</header>
-
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-inner">
-      <div class="country-label">United States</div>
-      <div class="nav-item active" onclick="setActive(this,'Top Stories','United States')"><i data-lucide="newspaper" style="width:12px;height:12px"></i> Top Stories</div>
-      <div class="nav-item" onclick="setActive(this,'Business','United States')"><i data-lucide="briefcase" style="width:12px;height:12px"></i> Business</div>
-      <div class="nav-item" onclick="setActive(this,'Technology','United States')"><i data-lucide="cpu" style="width:12px;height:12px"></i> Technology</div>
-      <div class="nav-item" onclick="setActive(this,'Sports','United States')"><i data-lucide="trophy" style="width:12px;height:12px"></i> Sports</div>
-      <div class="nav-item" onclick="setActive(this,'Science','United States')"><i data-lucide="flask-conical" style="width:12px;height:12px"></i> Science</div>
-      <div class="nav-item" onclick="setActive(this,'Entertainment','United States')"><i data-lucide="clapperboard" style="width:12px;height:12px"></i> Entertainment</div>
-      <div class="nav-item" onclick="setActive(this,'Health','United States')"><i data-lucide="heart-pulse" style="width:12px;height:12px"></i> Health</div>
-      <div class="sidebar-sep"></div>
-      <div class="country-label">Malaysia</div>
-      <div class="nav-item" onclick="setActive(this,'Top Stories','Malaysia')"><i data-lucide="newspaper" style="width:12px;height:12px"></i> Top Stories</div>
-      <div class="nav-item" onclick="setActive(this,'Business','Malaysia')"><i data-lucide="briefcase" style="width:12px;height:12px"></i> Business</div>
-      <div class="nav-item" onclick="setActive(this,'Technology','Malaysia')"><i data-lucide="cpu" style="width:12px;height:12px"></i> Technology</div>
-      <div class="nav-item" onclick="setActive(this,'Sports','Malaysia')"><i data-lucide="trophy" style="width:12px;height:12px"></i> Sports</div>
-      <div class="nav-item" onclick="setActive(this,'Science','Malaysia')"><i data-lucide="flask-conical" style="width:12px;height:12px"></i> Science</div>
-      <div class="nav-item" onclick="setActive(this,'Entertainment','Malaysia')"><i data-lucide="clapperboard" style="width:12px;height:12px"></i> Entertainment</div>
-      <div class="nav-item" onclick="setActive(this,'Health','Malaysia')"><i data-lucide="heart-pulse" style="width:12px;height:12px"></i> Health</div>
-    </div>
-  </aside>
-
-  <!-- FEED -->
-  <main class="feed">
-
-    <!-- SUMMARY BAR -->
-    <div class="summary-bar">
-      <div class="summary-bar-left">
-        <button class="summarize-btn" id="summarize-btn" onclick="toggleSummary()">
-          <i data-lucide="sparkles" style="width:12px;height:12px"></i>
-          Summarize Today
+      .article-arrow {
+        color: var(--text-3);
+        flex-shrink: 0;
+        opacity: 0;
+        transition: opacity 0.1s;
+      }
+      .article:hover .article-arrow {
+        opacity: 1;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()">
+        <i data-lucide="panel-left" style="width: 16px; height: 16px"></i>
+      </button>
+      <div class="logo">Just<span class="logo-dot">.</span>News</div>
+      <div class="topbar-right">
+        <span class="active-label"
+          ><strong id="lbl-cat">Top Stories</strong> ·
+          <span id="lbl-country">United States</span></span
+        >
+        <span class="updated">Updated <span id="lbl-time">2 min ago</span></span>
+        <button class="refresh-btn" id="refresh-btn" onclick="doRefresh()">
+          <i data-lucide="refresh-cw" style="width: 11px; height: 11px"></i>
+          Refresh
         </button>
-        <select class="model-select" id="model-select">
-          <option value="llama3.2">llama3.2</option>
-          <option value="llama3.1">llama3.1</option>
-          <option value="mistral">mistral</option>
-          <option value="gemma3">gemma3</option>
-        </select>
       </div>
+    </header>
+
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-inner">
+          <div class="country-label">United States</div>
+          <div class="nav-item active" onclick="setActive(this, 'Top Stories', 'United States')">
+            <i data-lucide="newspaper" style="width: 12px; height: 12px"></i> Top Stories
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Business', 'United States')">
+            <i data-lucide="briefcase" style="width: 12px; height: 12px"></i> Business
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Technology', 'United States')">
+            <i data-lucide="cpu" style="width: 12px; height: 12px"></i> Technology
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Sports', 'United States')">
+            <i data-lucide="trophy" style="width: 12px; height: 12px"></i> Sports
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Science', 'United States')">
+            <i data-lucide="flask-conical" style="width: 12px; height: 12px"></i> Science
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Entertainment', 'United States')">
+            <i data-lucide="clapperboard" style="width: 12px; height: 12px"></i> Entertainment
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Health', 'United States')">
+            <i data-lucide="heart-pulse" style="width: 12px; height: 12px"></i> Health
+          </div>
+          <div class="sidebar-sep"></div>
+          <div class="country-label">Malaysia</div>
+          <div class="nav-item" onclick="setActive(this, 'Top Stories', 'Malaysia')">
+            <i data-lucide="newspaper" style="width: 12px; height: 12px"></i> Top Stories
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Business', 'Malaysia')">
+            <i data-lucide="briefcase" style="width: 12px; height: 12px"></i> Business
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Technology', 'Malaysia')">
+            <i data-lucide="cpu" style="width: 12px; height: 12px"></i> Technology
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Sports', 'Malaysia')">
+            <i data-lucide="trophy" style="width: 12px; height: 12px"></i> Sports
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Science', 'Malaysia')">
+            <i data-lucide="flask-conical" style="width: 12px; height: 12px"></i> Science
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Entertainment', 'Malaysia')">
+            <i data-lucide="clapperboard" style="width: 12px; height: 12px"></i> Entertainment
+          </div>
+          <div class="nav-item" onclick="setActive(this, 'Health', 'Malaysia')">
+            <i data-lucide="heart-pulse" style="width: 12px; height: 12px"></i> Health
+          </div>
+        </div>
+      </aside>
+
+      <!-- FEED -->
+      <main class="feed">
+        <!-- SUMMARY BAR -->
+        <div class="summary-bar">
+          <div class="summary-bar-left">
+            <button class="summarize-btn" id="summarize-btn" onclick="toggleSummary()">
+              <i data-lucide="sparkles" style="width: 12px; height: 12px"></i>
+              Summarize Today
+            </button>
+            <select class="model-select" id="model-select">
+              <option value="llama3.2">llama3.2</option>
+              <option value="llama3.1">llama3.1</option>
+              <option value="mistral">mistral</option>
+              <option value="gemma3">gemma3</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SUMMARY CARD -->
+        <div class="summary-card hidden-card" id="summary-card">
+          <div class="summary-label">
+            <i data-lucide="sparkles" style="width: 10px; height: 10px"></i>
+            Today's Briefing · <span id="summary-cat">Top Stories</span>
+          </div>
+          <div class="summary-text" id="summary-text"></div>
+        </div>
+
+        <!-- ARTICLES -->
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              Federal Reserve Signals Potential Rate Cuts as Inflation Shows Signs of Cooling
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">Reuters</span><span class="meta-sep"></span
+              ><span class="meta-time">2 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              Apple's AI Strategy: How the iPhone Maker Plans to Catch Up in the AI Race
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">The Verge</span><span class="meta-sep"></span
+              ><span class="meta-time">3 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              Senate Passes Landmark Climate Bill With Rare Bipartisan Support
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">Washington Post</span><span class="meta-sep"></span
+              ><span class="meta-time">4 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              SpaceX Starship Completes Sixth Test Flight With Full Booster Catch
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">Space.com</span><span class="meta-sep"></span
+              ><span class="meta-time">5 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              NBA Finals: Golden State Warriors Force Game 7 With Dramatic Overtime Win
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">ESPN</span><span class="meta-sep"></span
+              ><span class="meta-time">6 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              OpenAI Releases GPT-5 Boasting Unprecedented Reasoning Capabilities
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">TechCrunch</span><span class="meta-sep"></span
+              ><span class="meta-time">7 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              US Economy Added 250,000 Jobs in April, Beating All Analyst Forecasts
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">Bloomberg</span><span class="meta-sep"></span
+              ><span class="meta-time">8 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              Study Links Ultra-Processed Foods to Significantly Higher Depression Risk
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">CNN Health</span><span class="meta-sep"></span
+              ><span class="meta-time">10 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              Taylor Swift's Eras Tour Documentary Shatters Streaming Records on Disney+
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">Variety</span><span class="meta-sep"></span
+              ><span class="meta-time">12 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+
+        <a class="article" href="#" target="_blank" rel="noopener">
+          <div class="article-left">
+            <div class="article-title">
+              Pentagon Announces $3 Billion Ukraine Aid Package Amid Ongoing Conflict
+            </div>
+            <div class="article-meta">
+              <span class="meta-source">Axios</span><span class="meta-sep"></span
+              ><span class="meta-time">14 hours ago</span>
+            </div>
+          </div>
+          <i
+            data-lucide="arrow-up-right"
+            class="article-arrow"
+            style="width: 14px; height: 14px"
+          ></i>
+        </a>
+      </main>
     </div>
 
-    <!-- SUMMARY CARD -->
-    <div class="summary-card hidden-card" id="summary-card">
-      <div class="summary-label">
-        <i data-lucide="sparkles" style="width:10px;height:10px"></i>
-        Today's Briefing · <span id="summary-cat">Top Stories</span>
-      </div>
-      <div class="summary-text" id="summary-text"></div>
-    </div>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+      lucide.createIcons();
 
-    <!-- ARTICLES -->
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">Federal Reserve Signals Potential Rate Cuts as Inflation Shows Signs of Cooling</div>
-        <div class="article-meta"><span class="meta-source">Reuters</span><span class="meta-sep"></span><span class="meta-time">2 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+      let sidebarOpen = true;
+      let summaryVisible = false;
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">Apple's AI Strategy: How the iPhone Maker Plans to Catch Up in the AI Race</div>
-        <div class="article-meta"><span class="meta-source">The Verge</span><span class="meta-sep"></span><span class="meta-time">3 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+      function toggleSidebar() {
+        sidebarOpen = !sidebarOpen;
+        document.getElementById("sidebar").classList.toggle("closed", !sidebarOpen);
+      }
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">Senate Passes Landmark Climate Bill With Rare Bipartisan Support</div>
-        <div class="article-meta"><span class="meta-source">Washington Post</span><span class="meta-sep"></span><span class="meta-time">4 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+      function setActive(el, cat, country) {
+        document.querySelectorAll(".nav-item").forEach((i) => i.classList.remove("active"));
+        el.classList.add("active");
+        document.getElementById("lbl-cat").textContent = cat;
+        document.getElementById("lbl-country").textContent = country;
+        document.getElementById("lbl-time").textContent = "just now";
+        // reset summary on category change
+        hideSummary();
+      }
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">SpaceX Starship Completes Sixth Test Flight With Full Booster Catch</div>
-        <div class="article-meta"><span class="meta-source">Space.com</span><span class="meta-sep"></span><span class="meta-time">5 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+      function doRefresh() {
+        const btn = document.getElementById("refresh-btn");
+        const icon = btn.querySelector("i");
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.style.opacity = "0.45";
+        icon.style.transition = "transform 0.65s ease";
+        icon.style.transform = "rotate(360deg)";
+        setTimeout(() => {
+          icon.style.transition = "";
+          icon.style.transform = "";
+          btn.disabled = false;
+          btn.style.opacity = "";
+          document.getElementById("lbl-time").textContent = "just now";
+        }, 700);
+      }
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">NBA Finals: Golden State Warriors Force Game 7 With Dramatic Overtime Win</div>
-        <div class="article-meta"><span class="meta-source">ESPN</span><span class="meta-sep"></span><span class="meta-time">6 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+      function hideSummary() {
+        const card = document.getElementById("summary-card");
+        const btn = document.getElementById("summarize-btn");
+        card.classList.remove("visible");
+        card.classList.add("hidden-card");
+        btn.classList.remove("active");
+        summaryVisible = false;
+      }
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">OpenAI Releases GPT-5 Boasting Unprecedented Reasoning Capabilities</div>
-        <div class="article-meta"><span class="meta-source">TechCrunch</span><span class="meta-sep"></span><span class="meta-time">7 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+      function toggleSummary() {
+        if (summaryVisible) {
+          hideSummary();
+          return;
+        }
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">US Economy Added 250,000 Jobs in April, Beating All Analyst Forecasts</div>
-        <div class="article-meta"><span class="meta-source">Bloomberg</span><span class="meta-sep"></span><span class="meta-time">8 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+        const card = document.getElementById("summary-card");
+        const btn = document.getElementById("summarize-btn");
+        const text = document.getElementById("summary-text");
+        const catLabel = document.getElementById("summary-cat");
+        const model = document.getElementById("model-select").value;
+        const cat = document.getElementById("lbl-cat").textContent;
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">Study Links Ultra-Processed Foods to Significantly Higher Depression Risk</div>
-        <div class="article-meta"><span class="meta-source">CNN Health</span><span class="meta-sep"></span><span class="meta-time">10 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+        catLabel.textContent = cat;
+        btn.classList.add("active");
+        card.classList.remove("hidden-card");
+        card.classList.add("visible");
+        summaryVisible = true;
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">Taylor Swift's Eras Tour Documentary Shatters Streaming Records on Disney+</div>
-        <div class="article-meta"><span class="meta-source">Variety</span><span class="meta-sep"></span><span class="meta-time">12 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
+        // show generating state
+        text.innerHTML =
+          '<span class="summary-generating"><i data-lucide="loader-2" class="spinning" style="width:13px;height:13px"></i> Generating with ' +
+          model +
+          "...</span>";
+        lucide.createIcons();
 
-    <a class="article" href="#" target="_blank" rel="noopener">
-      <div class="article-left">
-        <div class="article-title">Pentagon Announces $3 Billion Ukraine Aid Package Amid Ongoing Conflict</div>
-        <div class="article-meta"><span class="meta-source">Axios</span><span class="meta-sep"></span><span class="meta-time">14 hours ago</span></div>
-      </div>
-      <i data-lucide="arrow-up-right" class="article-arrow" style="width:14px;height:14px"></i>
-    </a>
-
-  </main>
-</div>
-
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-<script>
-  lucide.createIcons();
-
-  let sidebarOpen = true;
-  let summaryVisible = false;
-
-  function toggleSidebar() {
-    sidebarOpen = !sidebarOpen;
-    document.getElementById('sidebar').classList.toggle('closed', !sidebarOpen);
-  }
-
-  function setActive(el, cat, country) {
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('lbl-cat').textContent = cat;
-    document.getElementById('lbl-country').textContent = country;
-    document.getElementById('lbl-time').textContent = 'just now';
-    // reset summary on category change
-    hideSummary();
-  }
-
-  function doRefresh() {
-    const btn = document.getElementById('refresh-btn');
-    const icon = btn.querySelector('i');
-    if (btn.disabled) return;
-    btn.disabled = true;
-    btn.style.opacity = '0.45';
-    icon.style.transition = 'transform 0.65s ease';
-    icon.style.transform = 'rotate(360deg)';
-    setTimeout(() => {
-      icon.style.transition = '';
-      icon.style.transform = '';
-      btn.disabled = false;
-      btn.style.opacity = '';
-      document.getElementById('lbl-time').textContent = 'just now';
-    }, 700);
-  }
-
-  function hideSummary() {
-    const card = document.getElementById('summary-card');
-    const btn = document.getElementById('summarize-btn');
-    card.classList.remove('visible');
-    card.classList.add('hidden-card');
-    btn.classList.remove('active');
-    summaryVisible = false;
-  }
-
-  function toggleSummary() {
-    if (summaryVisible) { hideSummary(); return; }
-
-    const card = document.getElementById('summary-card');
-    const btn = document.getElementById('summarize-btn');
-    const text = document.getElementById('summary-text');
-    const catLabel = document.getElementById('summary-cat');
-    const model = document.getElementById('model-select').value;
-    const cat = document.getElementById('lbl-cat').textContent;
-
-    catLabel.textContent = cat;
-    btn.classList.add('active');
-    card.classList.remove('hidden-card');
-    card.classList.add('visible');
-    summaryVisible = true;
-
-    // show generating state
-    text.innerHTML = '<span class="summary-generating"><i data-lucide="loader-2" class="spinning" style="width:13px;height:13px"></i> Generating with ' + model + '...</span>';
-    lucide.createIcons();
-
-    // simulate response (real app calls localhost:11434)
-    setTimeout(() => {
-      text.textContent = 'The Federal Reserve hinted at possible rate cuts following encouraging inflation data, while the Senate reached rare bipartisan agreement on a significant climate package. Meanwhile, SpaceX achieved another milestone with a successful Starship booster catch, and OpenAI\'s GPT-5 launch is reshaping expectations in the AI industry. Markets responded positively to stronger-than-expected job figures from April.';
-    }, 1800);
-  }
-</script>
-</body>
+        // simulate response (real app calls localhost:11434)
+        setTimeout(() => {
+          text.textContent =
+            "The Federal Reserve hinted at possible rate cuts following encouraging inflation data, while the Senate reached rare bipartisan agreement on a significant climate package. Meanwhile, SpaceX achieved another milestone with a successful Starship booster catch, and OpenAI's GPT-5 launch is reshaping expectations in the AI industry. Markets responded positively to stronger-than-expected job figures from April.";
+        }, 1800);
+      }
+    </script>
+  </body>
 </html>

@@ -1,13 +1,13 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import { readLastVisited } from '@/lib/lastVisited'
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { readLastVisited } from "@/lib/lastVisited";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   beforeLoad: () => {
-    const { country, category } = readLastVisited()
+    const { country, category } = readLastVisited();
     throw redirect({
-      to: '/$country/$category',
+      to: "/$country/$category",
       params: { country, category },
       replace: true,
-    })
+    });
   },
-})
+});

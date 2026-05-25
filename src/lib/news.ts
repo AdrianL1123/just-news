@@ -1,21 +1,21 @@
-import { queryOptions } from '@tanstack/react-query'
-import type { Article } from '@/types'
+import { queryOptions } from "@tanstack/react-query";
+import type { Article } from "@/types";
 
 /** YYYY-MM-DD key in the user's local timezone — drives day-based cache invalidation. */
 export const todayKey = (): string => {
-  const d = new Date()
-  const yyyy = d.getFullYear()
-  const mm = String(d.getMonth() + 1).padStart(2, '0')
-  const dd = String(d.getDate()).padStart(2, '0')
-  return `${yyyy}-${mm}-${dd}`
-}
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+};
 
 async function fetchNews(country: string, category: string): Promise<Article[]> {
-  const url = `/api/news?locale=${encodeURIComponent(country)}&category=${encodeURIComponent(category)}`
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`News fetch failed: ${res.status}`)
-  const json = (await res.json()) as { data?: Article[] }
-  return json.data ?? []
+  const url = `/api/news?locale=${encodeURIComponent(country)}&category=${encodeURIComponent(category)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`News fetch failed: ${res.status}`);
+  const json = (await res.json()) as { data?: Article[] };
+  return json.data ?? [];
 }
 
 /**
@@ -26,11 +26,11 @@ async function fetchNews(country: string, category: string): Promise<Article[]> 
  */
 export const newsQueryOptions = (country: string, category: string) =>
   queryOptions({
-    queryKey: ['news', country, category, todayKey()] as const,
+    queryKey: ["news", country, category, todayKey()] as const,
     queryFn: () => fetchNews(country, category),
     staleTime: 1000 * 60 * 30, // 30 min
     gcTime: 1000 * 60 * 60 * 24,
     refetchOnWindowFocus: true,
-  })
+  });
 
-export type NewsQueryKey = ReturnType<typeof newsQueryOptions>['queryKey']
+export type NewsQueryKey = ReturnType<typeof newsQueryOptions>["queryKey"];

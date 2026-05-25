@@ -1,13 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { RouterProvider } from '@tanstack/react-router'
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { queryClient, persister } from './lib/queryClient'
-import { router } from './router'
-import './index.css'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider } from "@tanstack/react-router";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { queryClient, persister } from "./lib/queryClient";
+import { router } from "./router";
+import "./index.css";
 
-const rootEl = document.getElementById('root')!
+const rootEl = document.getElementById("root")!;
 
 createRoot(rootEl).render(
   <StrictMode>
@@ -26,4 +26,4 @@ createRoot(rootEl).render(
       <RouterProvider router={router} />
     )}
   </StrictMode>,
-)
+);

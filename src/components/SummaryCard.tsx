@@ -1,24 +1,18 @@
-import { Sparkles, RotateCcw, X } from 'lucide-react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Spinner } from '@/components/ui/spinner'
+import { Sparkles, RotateCcw, X } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 interface Props {
-  status: 'idle' | 'loading' | 'done' | 'error'
-  text: string | null
-  error: string | null
-  onGenerate: () => void
-  onReset: () => void
+  status: "idle" | "loading" | "done" | "error";
+  text: string | null;
+  error: string | null;
+  onGenerate: () => void;
+  onReset: () => void;
 }
 
-export function SummaryCard({
-  status,
-  text,
-  error,
-  onGenerate,
-  onReset,
-}: Props) {
-  if (status === 'idle') {
+export function SummaryCard({ status, text, error, onGenerate, onReset }: Props) {
+  if (status === "idle") {
     return (
       <div className="px-8 py-4 border-b border-border flex items-center">
         <Button
@@ -31,19 +25,19 @@ export function SummaryCard({
           Summarize today with AI
         </Button>
       </div>
-    )
+    );
   }
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <div className="px-8 py-4 border-b border-border flex items-center gap-2 text-sm text-foreground/60">
         <Spinner className="size-4" />
         Generating summary…
       </div>
-    )
+    );
   }
 
-  if (status === 'error') {
+  if (status === "error") {
     return (
       <div className="px-8 py-4 border-b border-border flex items-center justify-between gap-3">
         <span className="text-sm text-foreground/60">{error}</span>
@@ -57,7 +51,7 @@ export function SummaryCard({
           Dismiss
         </Button>
       </div>
-    )
+    );
   }
 
   return (
@@ -81,5 +75,5 @@ export function SummaryCard({
         <p className="text-base text-foreground leading-relaxed">{text}</p>
       </div>
     </Card>
-  )
+  );
 }
