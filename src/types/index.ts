@@ -7,13 +7,3 @@ export interface Article {
   categories: string[];
   image_url?: string;
 }
-
-export interface NewsResponse {
-  data: Article[];
-  meta: {
-    found: number;
-    returned: number;
-    limit: number;
-    page: number;
-  };
-}
