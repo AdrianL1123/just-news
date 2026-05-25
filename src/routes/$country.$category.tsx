@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle, Newspaper } from "lucide-react";
@@ -6,7 +5,6 @@ import type { LucideIcon } from "lucide-react";
 import { ArticleCard } from "@/components/ArticleCard";
 import { PageSpinner } from "@/components/ui/page-spinner";
 import { newsQueryOptions } from "@/lib/news";
-import { writeLastVisited } from "@/lib/lastVisited";
 
 export const Route = createFileRoute("/$country/$category")({
   loader: ({ context: { queryClient }, params: { country, category } }) =>
@@ -16,29 +14,18 @@ export const Route = createFileRoute("/$country/$category")({
 
 function CategoryRoute() {
   const { country, category } = Route.useParams();
-  const {
-    data: articles = [],
-    isPending,
-    isError,
-  } = useQuery(newsQueryOptions(country, category));
-
-  useEffect(() => {
-    writeLastVisited({ country, category });
-  }, [country, category]);
+  const { data: articles = [], isPending, isError } = useQuery(newsQueryOptions(country, category));
 
   if (isPending) {
     return <PageSpinner />;
   }
 
   if (isError) {
-    <FeedState
-      icon={AlertCircle}
-      message="Could not load news. Try refreshing."
-    />;
+    return <FeedState icon={AlertCircle} message="Could not load news. Try refreshing." />;
   }
 
   if (articles.length === 0) {
-    <FeedState icon={Newspaper} message="No articles found." />;
+    return <FeedState icon={Newspaper} message="No articles found." />;
   }
 
   return (
@@ -50,13 +37,7 @@ function CategoryRoute() {
   );
 }
 
-function FeedState({
-  icon: Icon,
-  message,
-}: {
-  icon: LucideIcon;
-  message: string;
-}) {
+function FeedState({ icon: Icon, message }: { icon: LucideIcon; message: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 px-8 py-24 text-foreground/40">
       <Icon className="size-10" strokeWidth={1.5} />
