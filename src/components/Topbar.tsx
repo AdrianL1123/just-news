@@ -1,4 +1,4 @@
-import { RefreshCw } from "lucide-react";
+import { RefreshCwIcon } from "lucide-react";
 import { useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -16,12 +16,12 @@ export function Topbar() {
     enabled: !!country && !!category,
   });
 
-  const refresh = () => {
+  function refresh() {
     if (!country || !category) return;
     queryClient.invalidateQueries({
       queryKey: newsQueryOptions(country, category).queryKey,
     });
-  };
+  }
 
   const navLabel = (() => {
     if (!country || !category) return "";
@@ -60,7 +60,7 @@ export function Topbar() {
           size="sm"
           className="text-xs gap-1.5"
         >
-          <RefreshCw className={`w-3 h-3 ${isFetching ? "animate-spin" : ""}`} />
+          <RefreshCwIcon className={`size-3 ${isFetching ? "animate-spin" : ""}`} />
           Refresh
         </Button>
       </div>

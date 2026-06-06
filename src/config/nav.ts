@@ -7,26 +7,13 @@ import {
   Clapperboard,
   HeartPulse,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 
-export interface Country {
-  code: string;
-  label: string;
-  locale: string;
-}
-
-export interface Category {
-  id: string;
-  label: string;
-  Icon: LucideIcon;
-}
-
-export const COUNTRIES: Country[] = [
+export const COUNTRIES = [
   { code: "us", label: "United States", locale: "us" },
   { code: "my", label: "Malaysia", locale: "my" },
 ];
 
-export const CATEGORIES: Category[] = [
+export const CATEGORIES = [
   { id: "general", label: "Top Stories", Icon: Newspaper },
   { id: "business", label: "Business", Icon: Briefcase },
   { id: "tech", label: "Technology", Icon: Cpu },

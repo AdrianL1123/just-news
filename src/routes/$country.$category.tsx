@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { AlertCircle, Newspaper } from "lucide-react";
+import { AlertCircleIcon, NewspaperIcon } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { ArticleCard } from "@/components/ArticleCard";
 import { PageSpinner } from "@/components/ui/page-spinner";
@@ -21,11 +21,11 @@ function CategoryRoute() {
   }
 
   if (isError) {
-    return <FeedState icon={AlertCircle} message="Could not load news. Try refreshing." />;
+    return <FeedState icon={AlertCircleIcon} message="Could not load news. Try refreshing." />;
   }
 
   if (articles.length === 0) {
-    return <FeedState icon={Newspaper} message="No articles found." />;
+    return <FeedState icon={NewspaperIcon} message="No articles found." />;
   }
 
   return (
