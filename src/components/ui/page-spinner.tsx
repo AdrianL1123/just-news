@@ -10,7 +10,7 @@ export function PageSpinner({ className }: { className?: string }) {
         className,
       )}
     >
-      <Spinner className="size-8" />
+      <Spinner className="text-primary size-12" />
     </div>
   );
 }
