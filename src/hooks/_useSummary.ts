@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { COUNTRIES, CATEGORIES } from "@/config/nav";
+import { COUNTRIES } from "@/config/nav";
 
 interface GenerateInput {
   headlines: string[];
@@ -8,8 +8,10 @@ interface GenerateInput {
 }
 
 async function callOllama({ headlines, country, category }: GenerateInput): Promise<string> {
-  const countryLabel = COUNTRIES.find((c) => c.code === country)?.label ?? country;
-  const categoryLabel = CATEGORIES.find((c) => c.id === category)?.label ?? category;
+  const activeCountry = COUNTRIES.find((c) => c.code === country);
+  const countryLabel = activeCountry?.label ?? country;
+  const categoryLabel =
+    activeCountry?.categories.find((cat) => cat.id === category)?.label ?? category;
 
   const prompt = `You are a concise news analyst. Given these headlines from ${categoryLabel} news in ${countryLabel}, write a 3-sentence daily briefing that captures the key themes. Be direct and factual. No preamble.\n\nHeadlines:\n${headlines
     .map((h, i) => `${i + 1}. ${h}`)

@@ -1,20 +1,29 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircleIcon, NewspaperIcon } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { ArticleCard } from "@/components/ArticleCard";
 import { PageSpinner } from "@/components/ui/page-spinner";
 import { newsQueryOptions } from "@/lib/news";
+import { COUNTRIES, isValidCountryCategory } from "@/config/nav";
 
 export const Route = createFileRoute("/$country/$category")({
-  loader: ({ context: { queryClient }, params: { country, category } }) =>
-    queryClient.ensureQueryData(newsQueryOptions(country, category)),
+  loader: ({ context: { queryClient }, params: { country, category } }) => {
+    if (!isValidCountryCategory(country, category)) throw notFound();
+    const provider = COUNTRIES.find((c) => c.code === country)!.provider;
+    return queryClient.ensureQueryData(newsQueryOptions(country, category, provider));
+  },
   component: CategoryRoute,
 });
 
 function CategoryRoute() {
   const { country, category } = Route.useParams();
-  const { data: articles = [], isPending, isError } = useQuery(newsQueryOptions(country, category));
+  const provider = COUNTRIES.find((c) => c.code === country)!.provider;
+  const {
+    data: articles = [],
+    isPending,
+    isError,
+  } = useQuery(newsQueryOptions(country, category, provider));
 
   if (isPending) {
     return <PageSpinner />;

@@ -1,5 +1,4 @@
 import { Link, useParams } from "@tanstack/react-router";
-import { useIsFetching } from "@tanstack/react-query";
 import type { LucideIcon } from "lucide-react";
 import {
   Sidebar,
@@ -9,14 +8,11 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { Spinner } from "@/components/ui/spinner";
-import { COUNTRIES, CATEGORIES } from "@/config/nav";
-import { todayKey } from "@/lib/news";
+import { COUNTRIES } from "@/config/nav";
 
 export function AppSidebar() {
   const { country: activeCountry, category: activeCategory } = useParams({
@@ -42,7 +38,7 @@ export function AppSidebar() {
               </SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {CATEGORIES.map(({ id, label, Icon }) => (
+                  {country.categories.map(({ id, label, Icon }) => (
                     <CategoryMenuItem
                       key={id}
                       countryCode={country.code}
@@ -70,18 +66,7 @@ interface CategoryMenuItemProps {
   isActive: boolean;
 }
 
-function CategoryMenuItem({
-  countryCode,
-  categoryId,
-  label,
-  Icon,
-  isActive,
-}: CategoryMenuItemProps) {
-  const isLoading =
-    useIsFetching({
-      queryKey: ["news", countryCode, categoryId, todayKey()],
-    }) > 0;
-
+function CategoryMenuItem({ countryCode, categoryId, label, Icon, isActive }: CategoryMenuItemProps) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
@@ -94,13 +79,6 @@ function CategoryMenuItem({
           <span>{label}</span>
         </Link>
       </SidebarMenuButton>
-      {isLoading && (
-        <SidebarMenuAction asChild>
-          <span className="pointer-events-none flex items-center justify-center">
-            <Spinner className="size-3.5 text-foreground/50" />
-          </span>
-        </SidebarMenuAction>
-      )}
     </SidebarMenuItem>
   );
 }

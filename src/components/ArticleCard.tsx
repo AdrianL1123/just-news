@@ -14,16 +14,6 @@ interface Props {
   };
 }
 
-function formatSource(source: string): string {
-  return source
-    .replace(/^www\./i, "")
-    .replace(/\.(com|net|org|io|co\.uk|co|news|tv)$/i, "")
-    .replace(/-/g, " ")
-    .split(" ")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
-
 export function ArticleCard({ article }: Props) {
   return (
     <a href={article.url} target="_blank" rel="noopener noreferrer" className="group block">
@@ -43,18 +33,21 @@ export function ArticleCard({ article }: Props) {
         ) : (
           <div className="aspect-[16/9] bg-gradient-to-br from-muted to-card flex items-center justify-center">
             <span className="font-serif text-3xl text-foreground/15 select-none">
-              {formatSource(article.source).charAt(0)}
+              {article.source.charAt(0)}
             </span>
           </div>
         )}
         <CardContent className="p-6 flex-1">
-          <p className="font-serif text-[22px] leading-[1.3] tracking-[-0.2px] transition-colors group-hover:text-primary">
+          <p
+            title={article.title}
+            className="font-serif text-[22px] leading-[1.3] tracking-[-0.2px] transition-colors group-hover:text-primary line-clamp-3"
+          >
             {article.title}
           </p>
         </CardContent>
         <CardFooter className="px-6 pb-6 pt-0 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium text-foreground">{formatSource(article.source)}</span>
+            <span className="font-medium text-foreground">{article.source}</span>
             <span className="w-[3px] h-[3px] rounded-full bg-muted-foreground/40 flex-shrink-0" />
             <span className="text-muted-foreground">{relativeTime(article.published_at)}</span>
           </div>
