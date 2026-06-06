@@ -1,6 +1,15 @@
 import { queryOptions } from "@tanstack/react-query";
 import { format } from "date-fns";
-import type { Article } from "@/types";
+
+type Article = {
+  uuid: string;
+  title: string;
+  url: string;
+  source: string;
+  published_at: string;
+  categories: string[];
+  image_url?: string;
+};
 
 /** YYYY-MM-DD key in the user's local timezone — drives day-based cache invalidation. */
 export const todayKey = (): string => format(new Date(), "yyyy-MM-dd");

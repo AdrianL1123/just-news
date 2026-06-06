@@ -1,10 +1,17 @@
 import { ArrowUpRight } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import type { Article } from "@/types";
 import { relativeTime } from "@/lib/time";
 
 interface Props {
-  article: Article;
+  article: {
+    uuid: string;
+    title: string;
+    url: string;
+    source: string;
+    published_at: string;
+    categories: string[];
+    image_url?: string;
+  };
 }
 
 function formatSource(source: string): string {
