@@ -66,7 +66,13 @@ interface CategoryMenuItemProps {
   isActive: boolean;
 }
 
-function CategoryMenuItem({ countryCode, categoryId, label, Icon, isActive }: CategoryMenuItemProps) {
+function CategoryMenuItem({
+  countryCode,
+  categoryId,
+  label,
+  Icon,
+  isActive,
+}: CategoryMenuItemProps) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
