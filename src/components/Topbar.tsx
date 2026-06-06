@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { RefreshCw } from "lucide-react";
 import { useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,12 +23,12 @@ export function Topbar() {
     });
   };
 
-  const navLabel = useMemo(() => {
+  const navLabel = (() => {
     if (!country || !category) return "";
     const c = COUNTRIES.find((x) => x.code === country)?.label ?? country;
     const cat = CATEGORIES.find((x) => x.id === category)?.label ?? category;
     return { category: cat, country: c };
-  }, [country, category]);
+  })();
 
   const updatedAt = dataUpdatedAt ? new Date(dataUpdatedAt) : null;
 
